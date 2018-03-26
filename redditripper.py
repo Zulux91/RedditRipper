@@ -6,6 +6,7 @@ import time
 import datetime
 #We use this for making files and folders
 import os
+import urllib.request
  
 #main code
 def main():
@@ -81,6 +82,15 @@ def process_submission(submission):
             file.write(" // "+readablecommentdate+"\n")
             file.write(comment.body+"\n\n")
         file.close()
+        #Download the attached image as single jpg or zip if it's an album (imgur only) ----> Zulux91
+        if submission.url.find("imgur.com"):
+            if submission.url.find(".jpg") == -1:
+                if submission.url.find("/a/") == -1:
+                    urllib.request.urlretrieve(submission.url+".jpg", title+".jpg")
+                else:
+                    urllib.request.urlretrieve(submission.url+"/zip", title+".zip")
+            else:
+                urllib.request.urlretrieve(submission.url, title+".jpg")
  
  
 #so we can change directories easily
